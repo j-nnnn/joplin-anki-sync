@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import requests
 import json
 import re
@@ -154,7 +156,7 @@ def joplin_note_parser(note_name, note_id):
                 if line.count("$") > 0 and line.count("$") % 2 == 0:
                     str_builder = []
                     in_formula = False
-                    displayed_math=False
+                    displayed_math = False
                     for index, char in enumerate(line):
                         if displayed_math:
                             displayed_math = False
@@ -163,17 +165,17 @@ def joplin_note_parser(note_name, note_id):
                             str_builder.append(char)
                         else:
                             if in_formula:
-                                if len(line)>index+1 and line[index+1]=="$":
+                                if len(line) > index + 1 and line[index + 1] == "$":
                                     str_builder.extend(["\\", "]"])
-                                    displayed_math=True
+                                    displayed_math = True
                                 else:
                                     str_builder.extend(["\\", ")"])
                             else:
-                                if len(line)>index+1 and line[index+1]=="$":
-                                    str_builder.extend(["\\","[" ])
+                                if len(line) > index + 1 and line[index + 1] == "$":
+                                    str_builder.extend(["\\", "["])
                                     displayed_math = True
                                 else:
-                                    str_builder.extend(["\\","(" ])
+                                    str_builder.extend(["\\", "("])
                             in_formula = not in_formula
                     line = "".join(str_builder)
                 content += line + "<br>"
@@ -181,6 +183,33 @@ def joplin_note_parser(note_name, note_id):
                     subheaders.append(re.sub(r"^##+ ", "", line))
             if header == line:
                 content = ""
+        
+
+
+        in_formula = False
+        displayed_math = False
+        str_builder = []
+        for index, char in enumerate(header):
+            if displayed_math:
+                displayed_math = False
+                continue
+            if char != "$":
+                str_builder.append(char)
+            else:
+                if in_formula:
+                    if len(header) > index + 1 and header[index + 1] == "$":
+                        str_builder.extend(["\\", "]"])
+                        displayed_math = True
+                    else:
+                        str_builder.extend(["\\", ")"])
+                else:
+                    if len(header) > index + 1 and header[index + 1] == "$":
+                        str_builder.extend(["\\", "["])
+                        displayed_math = True
+                    else:
+                        str_builder.extend(["\\", "("])
+                in_formula = not in_formula
+        header = "".join(str_builder)
         title = (
             f"{note_name}  / {header.replace('# ', '')} {str(subheaders)}"
             if subheaders
@@ -280,6 +309,10 @@ def anki_del_card(deck, titles, cards):
             response = requests.post(anki_origin, json=anki_json_d)
         exist = False
 
+import os
+import subprocess
+#os.popen("flatpak run net.ankiweb.Anki")
+
 
 config_parser()
 
@@ -348,3 +381,9 @@ for title in set(anki_cards.keys()) & set(joplin_notes.keys()):
         response = requests.post(anki_origin, json=anki_json)
         updated.append(title)
 print("Updated notes:", len(updated))
+
+anki_json = {"action": "sync", "version": 6}
+response = requests.post(anki_origin, json=anki_json)
+note_json = json.loads(response.content)
+if note_json["error"] == None:
+    print(f"Synced Decks")
