@@ -4,6 +4,7 @@ Automated management of Anki flashcards based on Joplin notes for effective spac
 # Requirements
 - Joplin Web clipper service
 - Anki AnkiConnect add-on
+- [Markdown and KaTex Support](https://ankiweb.net/shared/info/1087328706) Plugin for Anki
 
 # Configuration
 - Clone `https://github.com/abletsoff/joplin-anki-sync`

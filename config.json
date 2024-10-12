@@ -1,13 +1,7 @@
 {
 	"folders":[
-    "Learning",
-    "TCP/IP",
-    "AppSec",
-    "BlueTeam",
-    "System",
-    "Programming",
-    "Web",
-    "DevSecOps"
+    "Karteikarten",
+    "Karten2"
   ],
 	"exclude_headers":[
     "# Resources", 
