@@ -32,7 +32,7 @@ Automated management of Anki flashcards based on Joplin notes for effective spac
 # joplin-anki-sync algorithm 
 - Goes through Joplin folders (specified in `config.json`)
 - Separate each Joplin topic at markdown Heading Level 1 (e.g. `# Topic 1`) 
-- Generate Anki flashcard based on the Joplin topic. Flashcard front: Joplin note name + `# Topic 1`; flashcard back: Joplin topic content. In the joplin_anki-sync_mathjax.py script, the KaTeX syntax from Joplin is replaced with the MathJaX syntax from Anki ( e.g., \$\$$math\$\$$ -> \\(math\\) )
+- Generate Anki flashcard based on the Joplin topic. Flashcard front: Joplin note name + `# Topic 1`; flashcard back: Joplin topic content. In the joplin_anki-sync_mathjax.py script, the KaTeX syntax from Joplin is replaced with the MathJaX syntax from Anki ( e.g., \$\$ math \$\$  -> \\( math \\) )
 - Check if there is an Anki flashcard with the same front
   - There is no flashcard with the same front: create new flashcard in Anki deck
   - There is flashcard with the same front, back hash is the same: do nothing
